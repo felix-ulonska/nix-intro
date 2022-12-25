@@ -190,6 +190,13 @@ gulp.task('css-core', () => gulp.src(['css/reveal.scss'])
     .pipe(header(banner))
     .pipe(gulp.dest('./dist')))
 
+gulp.task('css-cool', () => gulp.src(['css/cool.scss'])
+    .pipe(compileSass())
+    .pipe(autoprefixer())
+    .pipe(minify({compatibility: 'ie9'}))
+    .pipe(header(banner))
+    .pipe(gulp.dest('./dist')))
+
 gulp.task('css', gulp.parallel('css-themes', 'css-core'))
 
 gulp.task('qunit', () => {
@@ -313,6 +320,11 @@ gulp.task('serve', () => {
         'css/*.scss',
         'css/print/*.{sass,scss,css}'
     ], gulp.series('css-core', 'reload'))
+
+    gulp.watch([
+        'css/*.scss',
+        'css/print/*.{sass,scss,css}'
+    ], gulp.series('css-cool', 'reload'))
 
     gulp.watch(['test/*.html'], gulp.series('test'))
 
