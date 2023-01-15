@@ -1,8 +1,6 @@
 # NixOS Einführung
 
-Die Slides für einen Talk, den ich beim Kamphack gehalten habe.
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/rUjMNM3lSZo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+Die Slides für einen Talk, den ich beim Kamphack gehalten habe. Den Talk gibt es hier unter ![Youtube](https://www.youtube.com/watch?v=rUjMNM3lSZo).
 
 Ich freue mich über Pull Requests!
 
