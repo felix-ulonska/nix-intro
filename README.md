@@ -1,6 +1,6 @@
 # NixOS Einführung
 
-Die Slides für einen Talk, den ich beim Kamphack gehalten habe. Den Talk gibt es hier unter ![Youtube](https://www.youtube.com/watch?v=rUjMNM3lSZo).
+Die Slides für einen Talk, den ich beim Kamphack gehalten habe. Den Talk gibt es hier unter [Youtube](https://www.youtube.com/watch?v=rUjMNM3lSZo).
 
 Ich freue mich über Pull Requests!
 
