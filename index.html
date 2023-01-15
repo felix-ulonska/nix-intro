@@ -24,7 +24,7 @@
         <section>
           <h3>$ whomai</h3>
           <ul>
-            <li>Felix Ulonska (Jabbi) er/ihm</li>
+            <li>Felix Ulonska (Jabbi)</li>
             <li>er/ihm</li>
             <li>Aktuell: Computer Science Master Bonn</li>
             <li>$dev @ devsaur</li>
@@ -44,7 +44,7 @@
           >
         </section>
         <section>
-          <section>
+          <section data-auto-animate>
             <h3>Wie man bisher Packages macht</h3>
             <div class="r-stack">
               <!--img
@@ -52,15 +52,28 @@
                 src="assets/Screenshot from 2022-12-18 22-28-59.png"
               /-->
               <!-- Lädt dependencies runter parallel in die Graphik integregireen-->
-              <img style="height: 100%" src="assets/bisher.svg" />
-              <img class="fragment" src="assets/meme_versionen.jpg" />
+              <img
+                data-id="imgPack"
+                style="height: 100%"
+                src="assets/bisher.svg"
+              />
+              <div class="fragment fade-in">
+                <img
+                  class="fragment fade-out"
+                  src="assets/meme_versionen.jpg"
+                />
+              </div>
             </div>
-            <div class="fragment">Output hängt von allem möglichen ab</div>
+            <div class="fragment">Output undeterministisch</div>
           </section>
-          <section>
+          <section data-auto-animate>
             <h3>In Nix</h3>
             <div class="center">
-              <img style="height: 100%" src="assets/mitnix.svg" />
+              <img
+                data-id="imgPack"
+                style="height: 100%"
+                src="assets/mitnix.svg"
+              />
             </div>
             <div class="fragment">Output hängt nur von Input ab</div>
           </section>
@@ -71,6 +84,9 @@
               <li>
                 Die Umgebungsvariablen <code>$HOME</code> und
                 <code>$PATH</code> sind auf bestimmte Werte festgelegt
+              </li>
+              <li>
+                <code>/bin</code>, <code>/lib</code>, etc. sind (fast) leer
               </li>
               <li>Der Build-Ordner ist ein temporäres Verzeichnis</li>
               <li>
@@ -89,14 +105,7 @@
                 Paketen
               </li>
               <li>Turing-Vollständig</li>
-              <li class="fragment">
-                Lazy
-                <pre><code>let
-  a = abort "will never happen";
-  b = "hello";
-  c = "world";
-in b + c</code></pre>
-              </li>
+              <li class="fragment">Lazy</li>
               <li class="fragment">
                 Pure:<br />
                 Es gibt keine Seiteneffekt: Output einer Funktion hängt nur vom
@@ -150,7 +159,7 @@ in (sum 1 3)
             <pre><code data-line-numbers="" class="fragment fade-in nix">4</code></pre>
           </section>
           <section>
-            <h3>Named Funktionen</h3>
+            <h3>Set als Argument</h3>
             <pre><code class="nix">let sum = { x, y }: x + y;
 in sum {x = 12; y = 32;}</code></pre>
             <pre><code data-line-numbers="" class="fragment fade-in nix">44</code></pre>
@@ -242,31 +251,30 @@ switching profile from version 47 to 46</code></pre>
             <h3><code>/nix/store</code></h3>
             <span class="fragment"
               >Enthält alle vom Nix-Paketmanager verwalteten Pakete und
-              Dateien.<br /></span
-            ><span class="fragment">
-              Dabei eine Namenskonvention für jedes Paket:
+              Dateien.</span
+            ><span class="fragment"
+              >Dabei eine Namenskonvention für jedes Paket:
               <small
                 ><code
                   >/nix/store/38in4n9cz6alhyc0hbb7g2yfsg7cgf8q-firefox-107.0
                 </code></small
-              ><br />Hash ist Hash der <b>Inputs</b>
+              ><br />Der Hash ist Hash der <b>Inputs</b>.
             </span>
-            <li class="fragment">
-              Schreibgeschützt, neue Versionen von Paketen werden als separate
-              Einträge installiert.
-            </li>
-            <li class="fragment">
-              Vorhersagbar, wo bestimmte Pakete liegen werden
-            </li>
-            <li class="fragment">
-              Andersherum: Wenn man den Namen kennt, kennt man den Inhalt
-            </li>
+            <br />
+            <span class="fragment">
+              Store ist schreibgeschützt: Neue Versionen von Paketen werden als
+              separate Einträge installiert.
+            </span>
             <!--li class="fragment">
                 Falls Paket auf andere Pakete aufbaut mit kopiert werden
               </li-->
           </section>
           <section>
             <h3>Runtime Dependenices</h3>
+            <span
+              >Da <code>/bin</code><code>/lib</code> leer, müssen Runtime
+              Dependencies aus <code>/nix/store</code> kommen</span
+            >
             <pre class="fragment"><code>$ strings helloWorld | grep /nix/store
 /nix/store/g8d5bnh9mh1364x17mjyc731fsi9a61m-glibc-2.35-163/lib/ld-linux-x86-64.so.2
 /nix/store/g8d5bnh9mh1364x17mjyc731fsi9a61m-glibc-2.35-163/lib</code></pre>
@@ -280,6 +288,10 @@ switching profile from version 47 to 46</code></pre>
             ><br /><span class="fragment"
               >Dadurch: Vollständige Dependenices sind bekannt</span
             >
+            <span class="fragment"
+              >Jedes Paket kann seine eigenen Dependenices haben!</span
+            >
+            <b class="fragment">Es gibt keine Dependency Conflicts!</b>
           </section>
           <section>
             <div class="r-stack">
@@ -307,7 +319,10 @@ switching profile from version 47 to 46</code></pre>
                   <a href="https://search.nixos.org/packages">Mächtige Suche</a>
                 </li>
               </div>
-              <img class="fragment" src="/assets/map_repo_size_fresh.svg" />
+              <div class="fragment">
+                <img src="/assets/map_repo_size_fresh.svg" />
+                <small>Source: https://repology.org/</small>
+              </div>
             </div>
           </section>
           <section>
@@ -315,8 +330,8 @@ switching profile from version 47 to 46</code></pre>
             <span class="fragment"
               >Alle Runtime-Dependenices von Paketen sind bekannt.</span
             ><span class="fragment">
-              Alle Paketen in nixpkgs werden durch hydra (online) gebaut und in
-              einen zentralen Cache gespeichert.</span
+              Alle Paketen in nixpkgs werden durch hydra (CI/CD von nixpkgs)
+              gebaut und in einen zentralen Cache gespeichert.</span
             >
             <span class="fragment">
               Zur Installation eines Pakets wird das Paket und der
@@ -434,7 +449,7 @@ switching profile from version 47 to 46</code></pre>
             <h3 data-id="headline">X-Server</h3>
             <pre
               data-id="code-animation"
-            ><code class="nix" data-trim  data-line-numbers="|11-15|" >{ ... }: {
+            ><code class="nix" data-trim  data-line-numbers="11-15" >{ ... }: {
   users.users.jabbi = {
     isNormalUser = true;
     home = "/home/jabbi";
@@ -455,7 +470,7 @@ switching profile from version 47 to 46</code></pre>
             <h3 data-id="headline">X-Server</h3>
             <pre
               data-id="code-animation"
-            ><code class="nix" data-trim  data-line-numbers="|1|11-15|" >{ pkgs, ... }: {
+            ><code class="nix" data-trim  data-line-numbers="11-15" >{ pkgs, ... }: {
   users.users.jabbi = {
     isNormalUser = true;
     home = "/home/jabbi";
@@ -476,7 +491,7 @@ switching profile from version 47 to 46</code></pre>
             <h3 data-id="headline">Programme</h3>
             <pre
               data-id="code-animation"
-            ><code class="nix" data-trim data-line-numbers="|1|11-15|" >{ pkgs, ... }: {
+            ><code class="nix" data-trim data-line-numbers="17-20" >{ pkgs, ... }: {
   users.users.jabbi = {
     isNormalUser = true;
     home = "/home/jabbi";
@@ -491,8 +506,123 @@ switching profile from version 47 to 46</code></pre>
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
   };
+
+  environment.systemPackages = with pkgs; [
+    thunderbird
+    firefox
+  ];
+
+  
 }</code></pre>
           </section>
+          <section data-auto-animate>
+            <h3 data-id="headline">nginx</h3>
+            <pre
+              data-id="code-animation"
+            ><code class="nix" data-trim data-line-numbers="22-25" >{ pkgs, ... }: {
+  users.users.jabbi = {
+    isNormalUser = true;
+    home = "/home/jabbi";
+    description = "Felix Ulonska";
+    extraGroups = [ "wheel" ];
+    # Use HashedPassword! This is bad!
+    initialPassword = "password";
+  };
+
+  services.xserver = {
+    enable = true;
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+  };
+
+  environment.systemPackages = with pkgs; [
+    thunderbird
+    firefox
+  ];
+
+  services.nginx.enable = true;
+  services.nginx.virtualHosts."myhost.org" = {
+    root = "/var/www/";
+  };
+}</code></pre>
+          </section>
+          <section data-auto-animate>
+            <h3 data-id="headline">SSL?</h3>
+            <pre
+              data-id="code-animation"
+            ><code class="nix" data-trim data-line-numbers="24-25" >{ pkgs, ... }: {
+  users.users.jabbi = {
+    isNormalUser = true;
+    home = "/home/jabbi";
+    description = "Felix Ulonska";
+    extraGroups = [ "wheel" ];
+    # Use HashedPassword! This is bad!
+    initialPassword = "password";
+  };
+
+  services.xserver = {
+    enable = true;
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+  };
+
+  environment.systemPackages = with pkgs; [
+    thunderbird
+    firefox
+  ];
+
+  services.nginx.enable = true;
+  services.nginx.virtualHosts."myhost.org" = {
+    addSSL = true;
+    enableACME = true;
+    root = "/var/www/";
+  };
+}</code></pre>
+          </section>
+          <section>
+            <h3>Was kann noch konfiguriert werden?</h3>
+            <ul>
+              <li class="fragment">Nextcloud</li>
+              <li class="fragment">Docker Container</li>
+              <li class="fragment">Editor Configs</li>
+              <li class="fragment">Kubernetes</li>
+              <li class="fragment">Hedgedoc</li>
+              <li class="fragment">Gitlab</li>
+              <li class="fragment">
+                <a href="https://search.nixos.org/options?">Suche</a>
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h3>Fazit</h3>
+            <ul>
+              <li class="fragment">Single Source of Truth</li>
+              <li class="fragment">Zusammenarbeit ist leicht, da Git</li>
+              <li class="fragment">System ist reproduzierbar</li>
+              <li class="fragment">Leicht Systeme auf Server zu übertragen</li>
+              <li class="fragment">Bauziel: VM, echte Systeme, ISO, ...</li>
+              <li class="fragment">Viele Services sind gut vorkonfiguriert</li>
+              <li class="fragment">80000 Pakete</li>
+              <li class="fragment">10000 Service Optionen</li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <h4>Ich will nun Nix!</h4>
+          Fangt nicht mit einer Vollinstallation von NixOS an!
+          <ul>
+            <li class="fragment">
+              Nix Paketmanager - lässt sich leicht wieder entfernen
+            </li>
+            <li class="fragment">NixOS in einer VM</li>
+            <li class="fragment">NixOS als Servereinsatz</li>
+            <li class="fragment">NixOS als daily driver</li>
+            <li class="fragment">
+              <span class="fragment highlight-red">
+                Workshop am 30.12 um 15 Uhr, bringt Laptops mit!
+              </span>
+            </li>
+          </ul>
         </section>
       </div>
     </div>
